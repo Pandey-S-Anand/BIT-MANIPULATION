@@ -1,0 +1,91 @@
+//Bruteforce Approach
+
+class Solution {
+    static int toggleBits(int n, int low, int high) {
+        for (int k = low; k <= high; k++) {
+            n = toggleKthBit(n, k);
+        }
+
+        return n;
+    }
+
+    private static int toggleKthBit(int num, int k) {
+        int mask = 1 << (k - 1);
+        return num ^ mask;
+    }
+}
+
+//Better Approach
+
+class Solution {
+    static int toggleBits(int n, int low, int high) {
+        int flippedNumber = 0, powerOf2 = 1;
+        low--;
+        high--;
+
+        for (int i = 0; i < 32; i++) {
+            int mask = 1 << i;
+
+            if (i < low) {
+                if ((mask & n) != 0) {
+                    flippedNumber += powerOf2;
+                }
+            } else if (i >= low && i <= high) {
+                if ((mask & n) == 0) {
+                    flippedNumber += powerOf2;
+                }
+            } else { // if(i>end && i<32)
+                if ((mask & n) != 0) {
+                    flippedNumber += powerOf2;
+                }
+            }
+
+            powerOf2 *= 2;
+        }
+
+        return flippedNumber;
+    }
+}
+
+
+//Aliter Implementation
+
+class Solution {
+    static int toggleBits(int n, int low, int high) {
+        int flippedNumber = 0;
+        low--;
+        high--;
+
+        for (int i = 0, pwr = 0; i < 32; i++, pwr++) {
+            int mask = 1 << i;
+
+            if (i < low) {
+                if ((mask & n) != 0) {
+                    flippedNumber += 1 << pwr; // x<<y => x*(2^y)
+                }
+            } else if (i >= low && i <= high) {
+                if ((mask & n) == 0) {
+                    flippedNumber += 1 << pwr; // x<<y => x*(2^y)
+                }
+            } else { // if(i>end && i<32)
+                if ((mask & n) != 0) {
+                    flippedNumber += 1 << pwr;
+                }
+            }
+        }
+
+        return flippedNumber;
+    }
+}
+
+
+//Optimal Approach
+
+class Solution {
+    static int toggleBits(int n, int low, int high) {
+        int mask = (1 << (high - low + 1));
+        mask = mask - 1;
+        mask = mask << (low - 1);
+        return n ^ mask;
+    }
+}
