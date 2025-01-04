@@ -1,3 +1,59 @@
+//Bruteforce Approach
+
+class Solution {
+    public int hammingDistance(int num1, int num2) {
+        int xor = num1 ^ num2;
+        return countSetBits(xor);
+    }
+
+    private int countSetBits(int num) {
+        int count = 0;
+        for (int i = 0; i < 32; i++) {
+            if (checkKthBit(num, i) != 0) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private int checkKthBit(int num, int k) {
+        int mask = 1 << k;
+        return num & mask;
+    }
+}
+
+
+//Optimal Approach
+
+class Solution {
+    public int hammingDistance(int num1, int num2) {
+        int xor = num1 ^ num2;
+        return countSetBits(xor);
+    }
+
+    private int countSetBits(int num) {
+        int count = 0;
+        while (num != 0) {
+            int rmsbm = rMSBM(num);
+            num = num - rmsbm;
+            count++;
+        }
+
+        return count;
+    }
+
+    private int rMSBM(int num) {
+        return num & twosCompliment(num);
+    }
+
+    private int twosCompliment(int num) {
+        return -num;// return (~num+1);
+    }
+}
+
+//Aliter (Inbuilt method)
+
 class Solution {
     public int hammingDistance(int num1, int num2) {
         int xor = num1 ^ num2;
