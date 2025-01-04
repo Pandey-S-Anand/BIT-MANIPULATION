@@ -1,0 +1,24 @@
+//Method 1
+
+class Solution {
+    public static String areSame(int num1, int num2) {
+        int xor = num1 ^ num2;
+        return xor == 0 ? "Same" : "Not Same";
+    }
+}
+
+// Method 2
+
+class Solution {
+    public static String areSame(int num1, int num2) {
+        if ((num1 & onesComplement(num2)) == 0 && (num2 & onesComplement(num1)) == 0) {
+            return "Same";
+        }
+
+        return "Not Same";
+    }
+
+    private int onesComplement(int num) {
+        return ~num;
+    }
+}
