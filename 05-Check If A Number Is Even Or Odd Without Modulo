@@ -1,0 +1,40 @@
+//Method 1 (Using Bitwise AND)
+
+/*
+The idea is to check the least significant bit of the number. 
+If the last bit is set (1), the number is odd. 
+If the last bit is not set (0), the number is even. 
+Using the bitwise AND operation with 1 will return 1 if the number is odd (because the last bit is 1), 
+and it will return 0 if the number is even (because the last bit is 0).
+*/
+class Solution {
+    public static boolean isEven(int num) {
+        return (num & 1) == 0;
+    }
+}
+
+// Method 2 (Using Bitwise XOR)
+/*
+ * The bitwise XOR operation of a number with 1 will:
+ * - Increment the number by 1 if it is even (since the least significant bit is 0).
+ * - Decrement the number by 1 if it is odd (since the least significant bit is 1).
+ */
+
+class Solution {
+    public static boolean isEven(int num) {
+        return (num ^ 1) == (num + 1);
+    }
+}
+
+// Method 3 (Using Bitwise OR)
+/*
+ * Bitwise OR operation of a number with 1 results in:
+ * - Incrementing the number by 1 if the number is even (because the least significant bit is 0).
+ * - Leaving the number unchanged if it is odd (because the least significant bit is already 1).
+ */
+
+public class Solution {
+    public static boolean isEven(int num) {
+        return (num | 1) == (num + 1);
+    }
+}
