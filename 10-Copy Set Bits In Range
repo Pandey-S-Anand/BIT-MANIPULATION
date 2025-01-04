@@ -1,0 +1,35 @@
+//Bruteforce Approach
+
+class Solution {
+    static int setSetBit(int x, int y, int l, int r) {
+        int modifiedNumber = x;
+
+        for (int i = (l - 1); i <= (r - 1); i++) {
+            int mask = 1 << i;
+
+            if ((y & mask) != 0) {
+                modifiedNumber = setTheKthBit(modifiedNumber, i);
+            }
+
+        }
+
+        return modifiedNumber;
+    }
+
+    private static int setTheKthBit(int num, int k) {
+        int mask = 1 << k;
+        return num | mask;
+    }
+}
+
+// Optimal Approach
+
+class Solution {
+    static int setSetBit(int x, int y, int l, int r) {
+        int mask1 = 1 << (r - l + 1);
+        mask1 = mask1 - 1;
+        mask1 = mask1 << (l - 1);
+        int mask2 = y & mask1;
+        return x | mask2;
+    }
+}
