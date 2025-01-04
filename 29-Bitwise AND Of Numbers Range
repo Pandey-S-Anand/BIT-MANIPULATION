@@ -22,6 +22,6 @@ class Solution {
             count++;
         }
 
-        return low << count;// or res=high<<count
+        return low << count;// or bitwiseAndResult = high << count
     }
 }
