@@ -42,8 +42,7 @@ class Solution {
 // Better Approach
 /*
  * All power of two numbers has only a one-bit set. So count
- * the no. of set bits and if you get 1 then the number is a power of 2
- * otherwise not
+ * the no. of set bits and if you get 1 then the number is a power of 2 otherwise not
  */
 
 class Solution {
