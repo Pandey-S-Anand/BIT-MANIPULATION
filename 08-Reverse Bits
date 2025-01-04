@@ -12,7 +12,7 @@ public class Solution {
         return reversed;
     }
 
-    private static boolean isBitSetAtPosition(int n, int k) {
+    private boolean isBitSetAtPosition(int n, int k) {
         int mask = 1 << k;
         return (n & mask) != 0;
     }
