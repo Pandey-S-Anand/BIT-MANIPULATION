@@ -1,6 +1,6 @@
 //Bruteforce Approach
 
-//Iterative version
+//Iterative
 
 class Solution {
     public boolean isPowerOfFour(int num) {
@@ -24,7 +24,7 @@ class Solution {
     }
 }
 
-// Recurssive version
+// Recursive
 
 class Solution {
     public boolean isPowerOfFour(int num) {
