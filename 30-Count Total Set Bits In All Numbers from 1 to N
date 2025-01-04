@@ -1,0 +1,109 @@
+//Bruteforce Approach
+
+class Solution {
+    static int countBits(int n) {
+        int count = 0;
+
+        for (int num = 1; num <= n; num++) {
+            for (int k = 0; k < 32; k++) {
+                if (checkKthBit(num, k) != 0) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    private static int checkKthBit(int num, int k) {
+        int mask = 1 << (k);
+        return num & mask;
+    }
+}
+
+// Better Approach
+
+class Solution {
+    static int countBits(int n) {
+        int count = 0;
+
+        for (int i = 1; i <= n; i++) {
+            count += Integer.bitCount(i);
+        }
+
+        return count;
+    }
+}
+
+// Optimal Approach
+
+// Intuitive Implementation
+
+class Solution {
+    static int countSetBits(int n) {
+        if (n == 0) {
+            return 0;
+        }
+
+        int highestPowerOf2 = findHighestPowerOf2InRange(n);
+
+        // Part 1: Total set bits in numbers up to 2^(highestPowerOf2 - 1)
+        int setBitsUpToPowerOf2 = (int) Math.pow(2, highestPowerOf2 - 1) * highestPowerOf2;
+
+        // Part 2: Set bits in the range from 2^highestPowerOf2 to n
+        int setBitsInCurrentRange = n - (int) Math.pow(2, highestPowerOf2) + 1;
+
+        // Part 3: Recursively calculate the set bits for the remaining numbers
+        int remainingNumbers = n - (int) Math.pow(2, highestPowerOf2);
+        int setBitsInRemainingNumbers = countSetBits(remainingNumbers);
+
+        // Total count of set bits
+        int totalSetBits = setBitsUpToPowerOf2 + setBitsInCurrentRange + setBitsInRemainingNumbers;
+
+        return totalSetBits;
+    }
+
+    private static int findHighestPowerOf2InRange(int num) {
+        int power = 0;
+
+        while (Math.pow(2, power) <= num) {
+            power++;
+        }
+
+        return (power - 1);
+    }
+}
+
+
+// Optimal Imlementation
+
+class Solution {
+    static int countSetBits(int n) {
+        if (n == 0) {
+            return 0;
+        }
+
+        int highestPowerOf2 = findHighestPowerOf2InRange(n);
+
+        int setBitsUpToPowerOf2 = (1 << (highestPowerOf2 - 1)) * highestPowerOf2; // (2^(highestPowerOf2-1)) * highestPowerOf2
+        int setBitsInCurrentRange = n - (1 << highestPowerOf2) + 1; // n - (2^highestPowerOf2) + 1
+        int setBitsInRemainingNumbers = countSetBits(n - (1 << highestPowerOf2)); // n - (2^highestPowerOf2)
+
+        int totalSetBits = setBitsUpToPowerOf2 + setBitsInCurrentRange + setBitsInRemainingNumbers;
+
+        return totalSetBits;
+    }
+
+    private static int findHighestPowerOf2InRange(int num) {
+        int power = 0;
+        while ((1 << power) <= num) { // (2^power) <= num
+            power++;
+        }
+
+        return power - 1;
+    }
+}
+
+
+// Note: x<<y = x*2^y
+// Note: x>>y = x/(2^y)
