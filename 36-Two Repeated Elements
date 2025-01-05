@@ -3,48 +3,49 @@
 class Solution {
     public int[] twoRepeated(int n, int arr[]) {
         int x = -1, y = -1;  // Variables to store the two repeated elements
-        int[] repeatedElements = new int[2];
-       
+
         for (int i = 0; i < arr.length; i++) {
             for (int j = i + 1; j < arr.length; j++) {
                 if (arr[i] == arr[j]) {
                     if (x == -1) {
-                    x = arr[i]; // Store first repeated element
-                } else {
-                    y = arr[i]; // Store second repeated element
-                    break;
+                        x = arr[i]; // Store first repeated element
+                    } else {
+                        y = arr[i]; // Store second repeated element
+                        break;
+                    }
                 }
             }
         }
         
-        return determineOrder(arr,x,y);
+        return determineOrder(arr, x, y); // Call the method after determining the repeated elements
     }
 
+    // Method to track the order of second appearances of x and y
     private int[] determineOrder(int[] arr, int x, int y) {
         boolean xFirstAppearance = false, yFirstAppearance = false;
-        int[] result = new int[2];
+        int[] repeatedElements = new int[2];
 
-        for (int val : arr) {
-            if (val == x) {
+        for (int num : arr) {
+            if (num == x) {
                 if (!xFirstAppearance) {
                     xFirstAppearance = true; // Mark x's first appearance
                 } else {
-                    result[0] = x; // Second appearance of x before second appearance or first appearance of y
-                    result[1] = y;
+                    repeatedElements[0] = x; // Second appearance of x before second appearance or first appearance of y
+                    repeatedElements[1] = y;
                     break;
                 }
-            } else if (val == y) {
+            } else if (num == y) {
                 if (!yFirstAppearance) {
                     yFirstAppearance = true; // Mark y's first appearance
                 } else {
-                    result[0] = y; // Second appearance of y before second appearance or first appearance of x
-                    result[1] = x;
+                    repeatedElements[0] = y; // Second appearance of y before second appearance or first appearance of x
+                    repeatedElements[1] = x;
                     break;
                 }
             }
         }
 
-        return result;
+        return repeatedElements;
     }
 }
 
@@ -79,18 +80,18 @@ class Solution {
         boolean xFirstAppearance = false, yFirstAppearance = false;
         int[] repeatedElements = new int[2];
 
-        for (int val : arr) {
-            if (val == x) {
+        for (int num : arr) {
+            if (num == x) {
                 if (!xFirstAppearance) {
                     xFirstAppearance = true; 
                 } else {
-                    repeatedElements[0] = x;
+                    repeatedElements[0] = x; 
                     repeatedElements[1] = y;
                     break;
                 }
-            } else if (val == y) {
+            } else if (num == y) {
                 if (!yFirstAppearance) {
-                    yFirstAppearance = true;
+                    yFirstAppearance = true; 
                 } else {
                     repeatedElements[0] = y;
                     repeatedElements[1] = x;
@@ -133,18 +134,18 @@ class Solution {
         boolean xFirstAppearance = false, yFirstAppearance = false;
         int[] repeatedElements = new int[2];
 
-        for (int val : arr) {
-            if (val == x) {
+        for (int num : arr) {
+            if (num == x) {
                 if (!xFirstAppearance) {
                     xFirstAppearance = true; 
                 } else {
-                    repeatedElements[0] = x;
+                    repeatedElements[0] = x; 
                     repeatedElements[1] = y;
                     break;
                 }
-            } else if (val == y) {
+            } else if (num == y) {
                 if (!yFirstAppearance) {
-                    yFirstAppearance = true;
+                    yFirstAppearance = true; 
                 } else {
                     repeatedElements[0] = y;
                     repeatedElements[1] = x;
@@ -243,18 +244,18 @@ class Solution {
         boolean xFirstAppearance = false, yFirstAppearance = false;
         int[] repeatedElements = new int[2];
 
-        for (int val : arr) {
-            if (val == x) {
+        for (int num : arr) {
+            if (num == x) {
                 if (!xFirstAppearance) {
                     xFirstAppearance = true; 
                 } else {
-                    repeatedElements[0] = x;
+                    repeatedElements[0] = x; 
                     repeatedElements[1] = y;
                     break;
                 }
-            } else if (val == y) {
+            } else if (num == y) {
                 if (!yFirstAppearance) {
-                    yFirstAppearance = true;
+                    yFirstAppearance = true; 
                 } else {
                     repeatedElements[0] = y;
                     repeatedElements[1] = x;
@@ -338,18 +339,18 @@ class Solution {
         boolean xFirstAppearance = false, yFirstAppearance = false;
         int[] repeatedElements = new int[2];
 
-        for (int val : arr) {
-            if (val == x) {
+        for (int num : arr) {
+            if (num == x) {
                 if (!xFirstAppearance) {
                     xFirstAppearance = true; 
                 } else {
-                    repeatedElements[0] = x;
+                    repeatedElements[0] = x; 
                     repeatedElements[1] = y;
                     break;
                 }
-            } else if (val == y) {
+            } else if (num == y) {
                 if (!yFirstAppearance) {
-                    yFirstAppearance = true;
+                    yFirstAppearance = true; 
                 } else {
                     repeatedElements[0] = y;
                     repeatedElements[1] = x;
