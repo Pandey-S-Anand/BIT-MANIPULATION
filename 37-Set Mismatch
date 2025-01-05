@@ -1,0 +1,187 @@
+//Bruteforce Approach
+
+class Solution {
+    public int[] findErrorNums(int[] arr) {
+        Arrays.sort(arr);
+        int[] repeatingAndMissing = new int[2];
+
+        for (int i = 0; i < (arr.length - 1); i++) {
+            if (arr[i] == arr[i + 1]) {
+                repeatingAndMissing[0] = arr[i]; // Repeating
+                break;
+            }
+        }
+
+        for (int num = 1; num <= arr.length; num++) {
+            if (!binarySearch(arr, 0, arr.length - 1, num)) {
+                repeatingAndMissing[1] = num; // Missing
+                break;
+            }
+        }
+
+        return repeatingAndMissing;
+    }
+
+    private boolean binarySearch(int[] arr, int low, int high, int key) {
+        if (low > high) {
+            return false;
+        }
+
+        int mid = low + (high - low) / 2;
+
+        if (arr[mid] == key) {
+            return true;
+        } else if (key > arr[mid]) {
+            return binarySearch(arr, mid + 1, high, key);
+        } else { // if(key<arr[mid])
+            return binarySearch(arr, low, mid - 1, key);
+        }
+    }
+}
+
+
+//Improved Approach
+
+class Solution {
+    public int[] findErrorNums(int[] arr) {
+        boolean[] visited = new boolean[arr.length + 1];
+        int[] repeatingAndMissing = new int[2];
+
+        for (int num : arr) {
+            if (visited[num]) {
+                repeatingAndMissing[0] = num;
+            } else {
+                visited[num] = true;
+            }
+        }
+
+        for (int i = 1; i <= arr.length; i++) {
+            if (!visited[i]) {
+                repeatingAndMissing[1] = i;
+                break;
+            }
+        }
+
+        return repeatingAndMissing;
+    }
+}
+
+
+// Better Approach
+
+class Solution {
+    public int[] findErrorNums(int[] arr) {
+        int[] repeatingAndMissing = new int[2];
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+
+        for (int num = 1; num <= arr.length; num++) {
+            frequencyMap.put(num, 0);
+        }
+
+        for (int num : arr) {
+            frequencyMap.put(num, frequencyMap.get(num) + 1);
+        }
+
+        for (int num : frequencyMap.keySet()) {
+            if (frequencyMap.get(num) == 2) {
+                repeatingAndMissing[0] = num; // repeating
+            } else if (frequencyMap.get(num) == 0) {
+                repeatingAndMissing[1] = num; // missing
+            }
+
+            if (repeatingAndMissing[0] != 0 && repeatingAndMissing[1] != 0) {
+                break;
+            }
+        }
+
+        return repeatingAndMissing;
+    }
+}
+
+
+//Best Approach
+
+class Solution {
+    public int[] findErrorNums(int[] arr) {
+        int i = 0;
+        int[] repeatingAndMissing = new int[2];
+
+        while (i < arr.length) {
+            int correctIndex = arr[i] - 1;
+            if (arr[correctIndex] == arr[i]) {
+                i++;
+            } else { // if arr[i] is not at its correct index
+                int temp = arr[correctIndex];
+                arr[correctIndex] = arr[i];
+                arr[i] = temp;
+            }
+        }
+
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i] != i + 1) {
+                repeatingAndMissing[0] = arr[i];// repeating
+                repeatingAndMissing[1] = i + 1;// missing
+                break;
+            }
+        }
+
+        return repeatingAndMissing;
+    }
+}
+
+
+//Optimal Approach
+
+class Solution {
+    public int[] findErrorNums(int[] arr) {
+        int x = 0, y = 0, xXory = 0;
+        int[] repeatingAndMissing = new int[2];
+
+        for (int num = 1; num <= arr.length; num++) {
+            xXory = xXory ^ num;
+        }
+
+        for (int num : arr) {
+            xXory = xXory ^ num;
+        }
+
+        int rightMostSetBitMask = getRightMostSetBitMask(xXory);
+
+        for (int num : arr) {
+            if ((num & rightMostSetBitMask) == 0) {
+                x = x ^ num;
+            } else {
+                y = y ^ num;
+            }
+        }
+
+        for (int num = 1; num <= arr.length; num++) {
+            if ((num & rightMostSetBitMask) == 0) {
+                x = x ^ num;
+            } else {
+                y = y ^ num;
+            }
+        }
+
+        for (int val : arr) {
+            if (val == x) {
+                repeatingAndMissing[0] = x; // Repeating
+                repeatingAndMissing[1] = y; // Missing
+                break;
+            } else if (val == y) {
+                repeatingAndMissing[0] = y; // Repeating
+                repeatingAndMissing[1] = x; // Missing
+                break;
+            }
+        }
+        return repeatingAndMissing;
+    }
+
+    private int getRightMostSetBitMask(int n) {
+        return n & twosCompliment(n);
+    }
+
+    private int twosCompliment(int n) {
+        return -n;// (~n+1);
+    }
+}
