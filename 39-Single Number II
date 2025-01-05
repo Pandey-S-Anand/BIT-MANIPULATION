@@ -1,0 +1,132 @@
+//Method 1
+
+class Solution {
+    public int singleNumber(int[] arr) {
+        int unique = -1;
+        boolean[] visited = new boolean[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            if (visited[i]) {
+                continue;
+            }
+
+            boolean isDuplicate = false;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] == arr[j]) {
+                    visited[j] = true;
+                    isDuplicate = true;
+                }
+            }
+
+            if (!isDuplicate) {
+                unique = arr[i];
+                break;
+            }
+        }
+
+        return unique;
+    }
+}
+
+
+// Method 2
+
+class Solution {
+    public int singleNumber(int[] arr) {
+        int unique = -1;
+        Map<Integer, Integer> frequencyMap = new HashMap<>(arr.length);
+
+        for (int num : arr) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        for (int num : frequencyMap.keySet()) {
+            if (frequencyMap.get(num) == 1) {
+                unique = num;
+                break;
+            }
+        }
+
+        return unique;
+    }
+}
+
+
+//Method 3
+
+class Solution {
+    public int singleNumber(int[] arr) {
+        long arrSum = 0, uniqueSum = 0;
+        Set<Integer> seen = new HashSet<>();
+
+        for (int num : arr) {
+            if (seen.add(num)) {
+                uniqueSum += num;
+            }
+            arrSum += num;
+        }
+        return (int) ((3 * uniqueSum - arrSum) / 2);
+    }
+}
+
+
+//Method 4
+
+class Solution {
+    public int singleNumber(int[] arr) {
+        Arrays.sort(arr);
+
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] != arr[i + 1]) {
+                return arr[i];
+            }
+
+            while (arr[i] == arr[i + 1]) {
+                i++;
+            }
+        }
+
+        return arr[arr.length - 1];
+    }
+}
+
+
+//Method 5
+
+class Solution {
+    public int singleNumber(int[] arr) {
+        int unique = 0;
+
+        for (int i = 0; i < 32; i++) {
+            int count1 = 0;
+            int mask = 1 << i;
+
+            for (int j = 0; j < arr.length; j++) {
+                if ((arr[j] & mask) != 0) {
+                    count1++;
+                }
+            }
+
+            if ((count1 % 3) == 1) { // 3n+1 form so set ith bit of the answer
+                unique = unique | mask;
+            }
+        }
+        return unique;
+    }
+}
+
+
+//Method 6
+
+class Solution {
+    public int singleNumber(int[] arr) {
+        int counterOne = 0, counterTwo = 0;
+
+        for (int num : arr) {
+            counterOne = (~counterTwo) & (counterOne ^ num);
+            counterTwo = (~counterOne) & (counterTwo ^ num);
+        }
+
+        return counterOne;
+    }
+}
