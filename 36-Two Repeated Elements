@@ -1,0 +1,363 @@
+//Method 1
+
+class Solution {
+    public int[] twoRepeated(int n, int arr[]) {
+        int x = -1, y = -1;  // Variables to store the two repeated elements
+        int[] repeatedElements = new int[2];
+       
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] == arr[j]) {
+                    if (x == -1) {
+                    x = arr[i]; // Store first repeated element
+                } else {
+                    y = arr[i]; // Store second repeated element
+                    break;
+                }
+            }
+        }
+        
+        return determineOrder(arr,x,y);
+    }
+
+    private int[] determineOrder(int[] arr, int x, int y) {
+        boolean xFirstAppearance = false, yFirstAppearance = false;
+        int[] result = new int[2];
+
+        for (int val : arr) {
+            if (val == x) {
+                if (!xFirstAppearance) {
+                    xFirstAppearance = true; // Mark x's first appearance
+                } else {
+                    result[0] = x; // Second appearance of x before second appearance or first appearance of y
+                    result[1] = y;
+                    break;
+                }
+            } else if (val == y) {
+                if (!yFirstAppearance) {
+                    yFirstAppearance = true; // Mark y's first appearance
+                } else {
+                    result[0] = y; // Second appearance of y before second appearance or first appearance of x
+                    result[1] = x;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+}
+
+
+
+// Method 2
+
+class Solution {
+    public int[] twoRepeated(int n, int arr[]) {
+        int i = 0, index = 0, x = -1, y = -1;
+        int[] sorted = arr.clone();
+        Arrays.sort(sorted);
+
+        while (i < (sorted.length - 1)) {
+            if (sorted[i] == sorted[i + 1]) {
+                if (x == -1) {
+                    x = sorted[i];
+                } else {
+                    y = sorted[i];
+                    break;
+                }
+                i += 2;
+            } else {
+                i++;
+            }
+        }
+
+        return determineOrder(arr, x, y);
+    }
+
+    private int[] determineOrder(int[] arr, int x, int y) {
+        boolean xFirstAppearance = false, yFirstAppearance = false;
+        int[] repeatedElements = new int[2];
+
+        for (int val : arr) {
+            if (val == x) {
+                if (!xFirstAppearance) {
+                    xFirstAppearance = true; 
+                } else {
+                    repeatedElements[0] = x;
+                    repeatedElements[1] = y;
+                    break;
+                }
+            } else if (val == y) {
+                if (!yFirstAppearance) {
+                    yFirstAppearance = true;
+                } else {
+                    repeatedElements[0] = y;
+                    repeatedElements[1] = x;
+                    break;
+                }
+            }
+        }
+
+        return repeatedElements;
+    }
+}
+
+
+//Method 3
+
+class Solution {
+    public int[] twoRepeated(int n, int arr[]) {
+        int x = -1, y = -1;
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+
+        for (int num : arr) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        for (int num : frequencyMap.keySet()) {
+            if (frequencyMap.get(num) == 2) {
+                if (x == -1) {
+                    x = num; 
+                } else {
+                    y = num;
+                    break;
+                }
+            }
+        }
+
+        return determineOrder(arr, x, y);
+    }
+
+    private int[] determineOrder(int[] arr, int x, int y) {
+        boolean xFirstAppearance = false, yFirstAppearance = false;
+        int[] repeatedElements = new int[2];
+
+        for (int val : arr) {
+            if (val == x) {
+                if (!xFirstAppearance) {
+                    xFirstAppearance = true; 
+                } else {
+                    repeatedElements[0] = x;
+                    repeatedElements[1] = y;
+                    break;
+                }
+            } else if (val == y) {
+                if (!yFirstAppearance) {
+                    yFirstAppearance = true;
+                } else {
+                    repeatedElements[0] = y;
+                    repeatedElements[1] = x;
+                    break;
+                }
+            }
+        }
+
+        return repeatedElements;
+    }
+}
+
+
+//Method 4
+
+class Solution {
+    public int[] twoRepeated(int n, int arr[]) {
+        int index = 0;
+        int[] repeatedElements = new int[2];
+        Set<Integer> seen = new HashSet<>();
+
+        for (int num : arr) {
+            if (seen.contains(num)) {
+                repeatedElements[index++] = num;
+                if (index == 2) {
+                    break;
+                }
+            } else {
+                seen.add(num);
+            }
+        }
+
+        return repeatedElements;
+    }
+}
+
+
+//Method 5
+
+class Solution {
+    public int[] twoRepeated(int n, int arr[]) {
+        int index = 0;
+        int[] repeatedNumbers = new int[2];
+        boolean[] visited = new boolean[n + 1];
+
+        for (int num : arr) {
+            if (visited[num]) {
+                repeatedNumbers[index++] = num;
+                if (index == 2) {
+                    break;
+                }
+            } else {
+                visited[num] = true;
+            }
+        }
+
+        return repeatedNumbers;
+    }
+}
+
+
+// Method 6
+
+class Solution {
+    public int[] twoRepeated(int n, int arr[]) {
+        int sum = (n * (n + 1)) / 2;// Sum of First 'n' Natural Numbers.
+        int prod = calculateFactorial(n);// Product of First n Natural Numbers.
+        int arrSum = 0, arrProduct = 1;
+
+        for (int i = 0; i < arr.length; i++) {
+            arrSum += arr[i];
+            arrProduct *= arr[i];
+        }
+
+        int sumOfTwoRepeating = arrSum - sum; // R1+R2=sumOfTwoRepeating
+        int prodOfTwoRepeating = arrProduct / prod; // R1*R2=prodOfTwoRepeating
+        int differenceOfTwoRepeating = (int) Math.sqrt((sumOfTwoRepeating * sumOfTwoRepeating) - (4 * prodOfTwoRepeating));// R1-R2=differenceOfTwoRepeating i.e (X-Y)^2=((X+Y)^2 - 4*X*Y)
+        int repeating1 = (sumOfTwoRepeating + differenceOfTwoRepeating) / 2; // (R1+R2)+(R1-R2)=2R1 => R1=((R1+R2)+(R1-R2))/2
+        int repeating2 = sumOfTwoRepeating - repeating1; // R2=(R1+R2)-R1
+
+        return determineOrder(arr, repeating1, repeating2);
+    }
+
+    private int calculateFactorial(int num) {
+        int[] factorial = new int[num + 1];
+        factorial[0] = 1;
+
+        for (int i = 1; i <= num; i++) {
+            factorial[i] = i * factorial[i - 1];
+        }
+
+        return factorial[num];
+    }
+
+    private int[] determineOrder(int[] arr, int x, int y) {
+        boolean xFirstAppearance = false, yFirstAppearance = false;
+        int[] repeatedElements = new int[2];
+
+        for (int val : arr) {
+            if (val == x) {
+                if (!xFirstAppearance) {
+                    xFirstAppearance = true; 
+                } else {
+                    repeatedElements[0] = x;
+                    repeatedElements[1] = y;
+                    break;
+                }
+            } else if (val == y) {
+                if (!yFirstAppearance) {
+                    yFirstAppearance = true;
+                } else {
+                    repeatedElements[0] = y;
+                    repeatedElements[1] = x;
+                    break;
+                }
+            }
+        }
+
+        return repeatedElements;
+    }
+}
+
+
+// Method 7
+
+class Solution {
+    public int[] twoRepeated(int n, int arr[]) {
+        int index = 0;
+        int[] repeatedNumbers = new int[2];
+
+        for (int i = 0; i < arr.length; i++) {
+            int num = Math.abs(arr[i]);
+            if (arr[num] < 0) {
+                repeatedNumbers[index++] = num;
+                if (index == 2) {
+                    break;
+                }
+            } else {
+                arr[num] *= -1;
+            }
+        }
+
+        return repeatedNumbers;
+    }
+}
+
+//Method 8 (Refer Question 37 and 38 for better understanding of this approach)
+
+class Solution {
+    public int[] twoRepeated(int n, int[] arr) {
+        int x = 0, y = 0, xXory = 0;
+
+        for (int i = 1; i <= n; i++) {
+            xXory = xXory ^ i;
+        }
+
+        for (int val : arr) {
+            xXory = xXory ^ val;
+        }
+
+        int rightMostSetBitMask = getRightmostSetBitMask(xXory);
+
+        for (int val : arr) {
+            if ((val & rightMostSetBitMask) == 0) {
+                x = x ^ val;
+            } else {
+                y = y ^ val;
+            }
+        }
+
+        for (int i = 1; i <= n; i++) {
+            if ((i & rightMostSetBitMask) == 0) {
+                x = x ^ i;
+            } else {
+                y = y ^ i;
+            }
+        }
+
+        return determineOrder(arr, x, y);
+    }
+
+    private int getRightmostSetBitMask(int number) {
+        return number & getTwosComplement(number);
+    }
+
+    private int getTwosComplement(int number) {
+        return -number; // (~number + 1);
+    }
+
+    private int[] determineOrder(int[] arr, int x, int y) {
+        boolean xFirstAppearance = false, yFirstAppearance = false;
+        int[] repeatedElements = new int[2];
+
+        for (int val : arr) {
+            if (val == x) {
+                if (!xFirstAppearance) {
+                    xFirstAppearance = true; 
+                } else {
+                    repeatedElements[0] = x;
+                    repeatedElements[1] = y;
+                    break;
+                }
+            } else if (val == y) {
+                if (!yFirstAppearance) {
+                    yFirstAppearance = true;
+                } else {
+                    repeatedElements[0] = y;
+                    repeatedElements[1] = x;
+                    break;
+                }
+            }
+        }
+
+        return repeatedElements;
+    }
+}
