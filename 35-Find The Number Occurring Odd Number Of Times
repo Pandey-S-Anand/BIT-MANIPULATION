@@ -1,0 +1,61 @@
+//Bruteforce Approach
+
+class Solution{
+   static int findOddOccurrence(int n, int arr[]){
+      int oddOccurrenceNumber = -1;
+      for(int i = 0; i < n; i++){
+         int count = 0;
+         for(int j = 0; j < n; j++){
+            if(arr[i] == arr[j]){
+               count++;
+            }
+         }
+
+         if((count % 2) != 0){
+            oddOccurrenceNumber = arr[i];
+            break;
+         }
+      }
+
+      return oddOccurrenceNumber;
+   }
+}
+
+
+//Better Approach
+
+class Solution{
+    static int findOddOccurrence(int n, int arr[]){
+        Map<Integer, Integer> frequencyMap = new HashMap<>(n);
+        int oddOccurrenceNumber = -1;
+        
+        for(int num : arr){
+           frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1); 
+        }
+           
+        for(int key : frequencyMap.keySet()){
+          if((frequencyMap.get(key) % 2) != 0)  {
+            oddOccurrenceNumber = key; 
+            break;
+          }
+        }
+           
+        return oddOccurrenceNumber;
+    }
+}
+
+
+//Optimal Approach
+
+class Solution{
+    static int findOddOccurrence(int n, int arr[]){
+      int oddOccurrenceNumber = arr[0];
+      
+      for(int i = 1; i < n; i++){
+        oddOccurrenceNumber ^= arr[i];
+      }
+      
+      return oddOccurrenceNumber;
+    }
+}
+
