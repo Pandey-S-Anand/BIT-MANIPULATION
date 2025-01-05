@@ -1,0 +1,121 @@
+//Bruteforce Approach
+
+class Solution {
+    public int[] singleNumber(int[] arr) {
+        int index = 0;
+        int[] unique = new int[2];
+
+        for (int i = 0; i < arr.length; i++) {
+            int j;
+            for (j = 0; j < arr.length; j++) {
+                if (j != i && arr[i] == arr[j]) {
+                    break;
+                }
+            }
+
+            if (j == arr.length) {
+                unique[index++] = arr[i];
+
+                if (index == 2) {
+                    break;
+                }
+            }
+        }
+
+        return unique;
+    }
+}
+
+// Aliter
+
+class Solution {
+    public int[] singleNumber(int[] arr) {
+        int index = 0;
+        int[] unique = new int[2];
+        boolean[] visited = new boolean[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            if (visited[i]) {
+                continue;
+            }
+
+            int j;
+            for (j = i + 1; j < arr.length; j++) {
+                if (arr[i] == arr[j]) {
+                    visited[j] = true;
+                    break;
+                }
+            }
+
+            if (j == arr.length) {
+                unique[index++] = arr[i];
+
+                if (index == 2) {
+                    break;
+                }
+            }
+        }
+
+        return unique;
+    }
+}
+
+
+//Better Approach
+
+class Solution {
+    public int[] singleNumber(int[] arr) {
+        int index = 0;
+        int[] unique = new int[2];
+
+        Map<Integer, Integer> frequencyMap = new HashMap<>(arr.length);
+
+        for (int num : arr) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        for (int num : frequencyMap.keySet()) {
+            if (frequencyMap.get(num) == 1) {
+                unique[index++] = num;
+
+                if (index == 2) {
+                    break;
+                }
+            }
+        }
+
+        return unique;
+    }
+}
+
+//Optimal Approach
+
+class Solution {
+    public int[] singleNumber(int[] arr) {
+        int xXory = 0, x = 0, y = 0;
+
+        for (int num : arr) {
+            xXory = xXory ^ num;
+        }
+
+        int rightMostSetBitMask = getRightMostSetBitMask(xXory);
+
+        for (int num : arr) {
+            if ((num & rightMostSetBitMask) == 0) {
+                x = x ^ num;
+            } else {
+                y = y ^ num;
+            }
+        }
+
+        return new int[] { x, y };
+    }
+
+    private int getRightMostSetBitMask(int n) {
+        return n & twosCompliment(n);
+    }
+
+    private int twosCompliment(int n) {
+        return -n;// (~n+1);
+    }
+}
